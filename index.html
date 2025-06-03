@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>互动小说阅读器</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="file-input-section">
+            <input type="file" id="novel-file-input" accept=".json">
+            <button id="load-novel-button">加载小说</button>
+        </div>
+        <h1 id="novel-title"></h1>
+        <div id="scene-text"></div>
+        <div id="choices-container"></div>
+        <div class="controls">
+            <button id="back-button" disabled>返回上一场景</button>
+            <button id="restart-button">重新开始</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
