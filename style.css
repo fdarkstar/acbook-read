@@ -8,6 +8,7 @@ body {
     background-color: #f4f4f4;
     color: #333;
     line-height: 1.6;
+    font-size: 16px; /* Base font size for better mobile readability */
 }
 
 .file-input-section {
@@ -43,7 +44,7 @@ body {
 
 .container {
     background-color: #fff;
-    padding: 30px;
+    padding: 20px; /* Adjusted for mobile */
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     max-width: 700px;
@@ -54,11 +55,11 @@ body {
 h1 {
     color: #2c3e50;
     margin-bottom: 25px;
-    font-size: 2em;
+    font-size: 1.8em; /* Adjusted for mobile */
 }
 
 #scene-text {
-    font-size: 1.1em;
+    font-size: 1.2em; /* Adjusted for mobile */
     margin-bottom: 30px;
     white-space: pre-wrap; /* Preserve whitespace and line breaks */
     text-align: left;
@@ -75,10 +76,10 @@ h1 {
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 12px 20px;
+    padding: 15px 20px; /* Increased padding for easier tapping */
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 1.1em; /* Adjusted for mobile */
     transition: background-color 0.3s ease;
 }
 
@@ -102,10 +103,10 @@ h1 {
     background-color: #6c757d;
     color: white;
     border: none;
-    padding: 10px 18px;
+    padding: 12px 20px; /* Increased padding for easier tapping */
     border-radius: 5px;
     cursor: pointer;
-    font-size: 0.95em;
+    font-size: 1em; /* Adjusted for mobile */
     transition: background-color 0.3s ease;
 }
 
@@ -113,7 +114,72 @@ h1 {
     background-color: #5a6268;
 }
 
+/* Mobile specific optimizations */
+@media (max-width: 600px) {
+    body {
+        align-items: flex-start; /* Align content to top on small screens */
+        padding-top: 20px; /* Add some top padding */
+    }
+
+    .container {
+        width: 95%; /* Use more width on small screens */
+        padding: 15px; /* Further reduce padding */
+    }
+
+    .file-input-section {
+        flex-direction: column; /* Stack elements vertically */
+        gap: 15px;
+    }
+
+    .file-input-section input[type="file"] {
+        max-width: 100%; /* Allow input to take full width */
+    }
+
+    h1 {
+        font-size: 1.6em; /* Slightly smaller title */
+    }
+
+    #scene-text {
+        font-size: 1.1em; /* Slightly smaller text */
+    }
+
+    .choice-button {
+        font-size: 1em; /* Adjust choice button font size */
+        padding: 12px 15px; /* Adjust choice button padding */
+    }
+
+    .controls {
+        flex-direction: column; /* Stack control buttons vertically */
+        gap: 10px;
+    }
+
+    .controls button {
+        width: 100%; /* Full width buttons */
+        padding: 12px 0; /* Adjust padding */
+    }
+}
+
 .controls button:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
+}
+
+.message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    display: none; /* Hidden by default */
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
 }
