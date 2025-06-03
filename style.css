@@ -183,3 +183,104 @@ h1 {
     color: #155724;
     border: 1px solid #c3e6cb;
 }
+
+/* 时间线容器样式 */
+#timeline-container {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 300px; /* 固定宽度 */
+    margin-left: 20px; /* 与主内容区域的间距 */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-y: auto; /* 允许内容滚动 */
+    max-height: 80vh; /* 最大高度 */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transform: translateX(0); /* 默认显示位置 */
+    opacity: 1; /* 默认完全可见 */
+}
+
+#timeline-container.timeline-hidden {
+    transform: translateX(100%); /* 隐藏时向右移动 */
+    opacity: 0; /* 隐藏时完全透明 */
+    position: absolute; /* 隐藏时脱离文档流，避免占用空间 */
+    right: 0;
+    top: 0;
+    height: 100%;
+    pointer-events: none; /* 隐藏时禁用交互 */
+}
+
+#timeline-container h2 {
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5em;
+}
+
+#timeline-list {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+#timeline-list li {
+    background-color: #e9ecef;
+    border: 1px solid #dee2e6;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    font-size: 0.95em;
+    text-align: left;
+    word-break: break-word; /* 防止长文本溢出 */
+}
+
+#timeline-list li.active-scene {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    font-weight: bold;
+    color: #0c5460;
+}
+
+/* 调整body布局以适应时间线 */
+body {
+    display: flex; /* 确保body是flex容器 */
+    justify-content: center;
+    align-items: flex-start; /* 顶部对齐，以便时间线可以从顶部开始 */
+    padding: 20px; /* 增加一些整体边距 */
+}
+
+/* 调整主容器宽度，为时间线留出空间 */
+.container {
+    max-width: 600px; /* 减小主内容区域的最大宽度 */
+    margin-right: 20px; /* 与时间线容器的间距 */
+}
+
+/* 移动端适配 */
+@media (max-width: 992px) { /* 调整断点以适应时间线布局 */
+    body {
+        flex-direction: column; /* 在小屏幕上垂直堆叠 */
+        align-items: center; /* 居中对齐 */
+    }
+
+    .container {
+        margin-right: 0; /* 移除右侧边距 */
+        margin-bottom: 20px; /* 在主容器下方添加间距 */
+        max-width: 90%; /* 允许主容器占用更多宽度 */
+    }
+
+    #timeline-container {
+        width: 90%; /* 时间线容器也占用更多宽度 */
+        margin-left: 0; /* 移除左侧边距 */
+        max-height: 40vh; /* 减小时间线在移动端的最大高度 */
+        transform: translateX(0) !important; /* 强制显示，不使用隐藏动画 */
+        opacity: 1 !important; /* 强制显示 */
+        position: relative; /* 恢复文档流 */
+        pointer-events: auto; /* 恢复交互 */
+    }
+
+    #timeline-container.timeline-hidden {
+        display: none; /* 在小屏幕上直接隐藏 */
+    }
+}

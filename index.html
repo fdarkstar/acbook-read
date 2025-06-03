@@ -18,8 +18,15 @@
         <div class="controls">
             <button id="back-button" disabled>返回上一场景</button>
             <button id="restart-button">重新开始</button>
+            <button id="toggle-timeline-button">显示时间线</button>
         </div>
         <div id="error-message" class="message error"></div>
+    </div>
+    <div id="timeline-container" class="timeline-hidden">
+        <h2>时间线</h2>
+        <ul id="timeline-list">
+            <!-- 时间线场景将在这里动态添加 -->
+        </ul>
     </div>
     <script src="script.js"></script>
 </body>

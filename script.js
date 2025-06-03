@@ -9,7 +9,12 @@ const sceneTextElement = document.getElementById('scene-text');
 const choicesContainer = document.getElementById('choices-container');
 const backButton = document.getElementById('back-button');
 const restartButton = document.getElementById('restart-button');
+const toggleTimelineButton = document.getElementById('toggle-timeline-button'); // 新增
+const timelineContainer = document.getElementById('timeline-container'); // 新增
+const timelineList = document.getElementById('timeline-list'); // 新增
 const errorMessageElement = document.getElementById('error-message');
+
+let visitedScenesTimeline = []; // 新增：存储访问过的场景及其信息
 
 function showMessage(element, message, type) {
     element.textContent = message;
@@ -44,6 +49,15 @@ function renderScene() {
         return;
     }
 
+    // 将当前场景添加到时间线
+    const sceneInfo = {
+        id: currentSceneId,
+        text: currentScene.text.substring(0, 30) + '...', // 截取部分文本用于显示
+        timestamp: currentScene.createdAt || Date.now() // 使用场景创建时间，如果不存在则用当前时间
+    };
+    visitedScenesTimeline.push(sceneInfo);
+    renderTimeline(); // 更新时间线显示
+
     novelTitleElement.textContent = novelData.title;
     sceneTextElement.textContent = currentScene.text;
     choicesContainer.innerHTML = ''; // Clear previous choices
@@ -70,6 +84,21 @@ function renderScene() {
     updateControls();
 }
 
+function renderTimeline() {
+    timelineList.innerHTML = ''; // 清空现有列表
+    visitedScenesTimeline.forEach((scene, index) => {
+        const li = document.createElement('li');
+        const date = new Date(scene.timestamp);
+        li.textContent = `${date.toLocaleTimeString()} - ${scene.id}: ${scene.text}`;
+        if (index === visitedScenesTimeline.length - 1) { // 标记当前场景
+            li.classList.add('active-scene');
+        }
+        timelineList.appendChild(li);
+    });
+    // 滚动到最新场景
+    timelineList.scrollTop = timelineList.scrollHeight;
+}
+
 function updateControls() {
     backButton.disabled = sceneHistory.length === 0;
     restartButton.disabled = !novelData; // Disable restart if no novel is loaded
@@ -86,6 +115,7 @@ loadNovelButton.addEventListener('click', () => {
                     throw new Error("无效的小说文件格式。缺少 'title', 'startSceneId' 或 'scenes'。");
                 }
                 sceneHistory = []; // Clear history for new novel
+                visitedScenesTimeline = []; // 新增：清空时间线历史
                 currentSceneId = novelData.startSceneId;
                 renderScene();
             } catch (error) {
@@ -103,6 +133,9 @@ loadNovelButton.addEventListener('click', () => {
 backButton.addEventListener('click', () => {
     if (sceneHistory.length > 0) {
         currentSceneId = sceneHistory.pop(); // Go back to the previous scene
+        if (visitedScenesTimeline.length > 1) { // 确保至少有两个场景才移除
+            visitedScenesTimeline.pop(); // 移除当前场景，因为要回溯到上一个
+        }
         renderScene();
     }
 });
@@ -116,4 +149,18 @@ restartButton.addEventListener('click', () => {
 });
 
 // Initial render when the page loads
-document.addEventListener('DOMContentLoaded', renderScene);
+document.addEventListener('DOMContentLoaded', () => {
+    renderScene();
+    // 初始隐藏时间线
+    timelineContainer.classList.add('timeline-hidden');
+});
+
+// 切换时间线显示/隐藏
+toggleTimelineButton.addEventListener('click', () => {
+    timelineContainer.classList.toggle('timeline-hidden');
+    if (timelineContainer.classList.contains('timeline-hidden')) {
+        toggleTimelineButton.textContent = '显示时间线';
+    } else {
+        toggleTimelineButton.textContent = '隐藏时间线';
+    }
+});
