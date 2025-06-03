@@ -9,8 +9,22 @@ const sceneTextElement = document.getElementById('scene-text');
 const choicesContainer = document.getElementById('choices-container');
 const backButton = document.getElementById('back-button');
 const restartButton = document.getElementById('restart-button');
+const errorMessageElement = document.getElementById('error-message');
+
+function showMessage(element, message, type) {
+    element.textContent = message;
+    element.className = `message ${type}`;
+    element.style.display = 'block';
+}
+
+function hideMessage(element) {
+    element.textContent = '';
+    element.className = 'message';
+    element.style.display = 'none';
+}
 
 function renderScene() {
+    hideMessage(errorMessageElement); // Clear any previous error messages
     if (!novelData) {
         novelTitleElement.textContent = "请加载小说文件";
         sceneTextElement.textContent = "";
@@ -75,14 +89,14 @@ loadNovelButton.addEventListener('click', () => {
                 currentSceneId = novelData.startSceneId;
                 renderScene();
             } catch (error) {
-                alert("加载小说失败：" + error.message);
+                showMessage(errorMessageElement, "加载小说失败：" + error.message, 'error');
                 novelData = null; // Reset novel data on error
                 renderScene(); // Render empty state
             }
         };
         reader.readAsText(file);
     } else {
-        alert("请选择一个小说文件。");
+        showMessage(errorMessageElement, "请选择一个小说文件。", 'error');
     }
 });
 
