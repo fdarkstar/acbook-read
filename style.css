@@ -159,6 +159,15 @@ h1 {
     }
 }
 
+/* Ensure bold and italic styles are applied */
+strong, b {
+    font-weight: bold;
+}
+
+em, i {
+    font-style: italic;
+}
+
 .controls button:disabled {
     background-color: #cccccc;
     cursor: not-allowed;

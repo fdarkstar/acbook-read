@@ -58,8 +58,17 @@ function renderScene() {
     visitedScenesTimeline.push(sceneInfo);
     renderTimeline(); // 更新时间线显示
 
+    // Helper function to convert markdown-like bold/italic to HTML
+    function convertMarkdownToHtml(text) {
+        // Convert **bold** to <strong>bold</strong>
+        let convertedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        // Convert *italic* to <em>italic</em>
+        convertedText = convertedText.replace(/\*(.*?)\*/g, '<em>$1</em>');
+        return convertedText;
+    }
+
     novelTitleElement.textContent = novelData.title;
-    sceneTextElement.textContent = currentScene.text;
+    sceneTextElement.innerHTML = convertMarkdownToHtml(currentScene.text); // Use innerHTML and convert markdown
     choicesContainer.innerHTML = ''; // Clear previous choices
 
     if (currentScene.choices && currentScene.choices.length > 0) {
